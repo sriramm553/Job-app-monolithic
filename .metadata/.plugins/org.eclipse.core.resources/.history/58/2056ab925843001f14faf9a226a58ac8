@@ -1,0 +1,45 @@
+package com.springapp.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.springapp.entity.Job;
+import com.springapp.repository.JobRepository;
+
+public class JobServiceImpl2 implements JobService{
+	
+	@Autowired
+	JobRepository jobRepository;
+
+	@Override
+	public List<Job> getAllJobs() {
+		List<Job> allJobs = jobRepository.findAll();
+		return allJobs;
+	}
+
+	@Override
+	public void createJob(Job job) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Job findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteById(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateJob(Long id, Job job) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

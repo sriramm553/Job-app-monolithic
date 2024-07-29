@@ -1,0 +1,72 @@
+package com.springapp.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.springapp.entity.Job;
+import com.springapp.entity.Review;
+import com.springapp.service.ReviewService;
+
+@RestController
+@RequestMapping("/reviews")
+public class ReviewController {
+	
+	@Autowired
+	ReviewService reviewService;
+	
+	@GetMapping
+	public ResponseEntity<Review> getAllReview(){
+		List<Review> allJobs = reviewService.getAllReviews();
+		return new ResponseEntity(allJobs, HttpStatus.OK);
+	}
+	
+	@PostMapping
+	public ResponseEntity<String> addReviews(@RequestBody Review review){
+		reviewService.createReview(review);
+		return new ResponseEntity<>("Job added Successfully",HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Review> getReview(@PathVariable Long id) {
+		
+		Review review = reviewService.findById(id);
+		if(review != null) {
+			return new ResponseEntity<>(review,HttpStatus.OK);
+		}
+		
+		return new ResponseEntity("ID Not Found",HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Job> deleteReview(@PathVariable Long id) {
+		
+		boolean deleted = reviewService.deleteById(id);
+		if(deleted)	return new ResponseEntity("Deleted Successfully",HttpStatus.OK);
+		
+		return new ResponseEntity("ID Not Found",HttpStatus.NOT_FOUND);
+	}
+	
+	@PutMapping("/{id}")
+	//@RequestMapping(value="/jobs/{id}",method = RequestMethod.PUT)
+	public ResponseEntity<String> addReviews(@PathVariable Long id,
+										  @RequestBody Review review){
+		boolean updated = reviewService.updateReview(id, review);
+		if(updated)	return new ResponseEntity<>("Jobs updated Successfully",HttpStatus.CREATED);
+		
+		return new ResponseEntity("ID Not Found",HttpStatus.NOT_FOUND);
+	}
+
+
+}

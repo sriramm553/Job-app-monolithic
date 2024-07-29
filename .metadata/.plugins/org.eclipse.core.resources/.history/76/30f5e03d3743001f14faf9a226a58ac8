@@ -1,0 +1,23 @@
+package com.springapp.entity;
+
+import lombok.Data;
+
+@Data
+public class Jobs {
+	
+	private Long id;
+	private String title;
+	private String description;
+	private String currentSalary;
+	private String expectedSalary;
+	private String location;
+	@Override
+	public String toString() {
+		return "Jobs [id=" + id + ", title=" + title + ", description=" + description + ", currentSalary="
+				+ currentSalary + ", expectedSalary=" + expectedSalary + ", location=" + location + "]";
+	}
+	
+	
+	
+
+}

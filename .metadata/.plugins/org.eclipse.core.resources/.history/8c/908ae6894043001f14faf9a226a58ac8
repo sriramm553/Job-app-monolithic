@@ -1,0 +1,28 @@
+package com.springapp.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.springapp.entity.Job;
+
+
+@Service
+public class JobServiceImpl implements JobService{
+
+	List<Job> jobs = new ArrayList<>();
+	
+	@Override
+	public List<Job> getAllJobs() {
+		return jobs;
+	}
+
+	@Override
+	public void createJob(Job job) {
+		
+		jobs.add(job);
+		
+	}
+
+}

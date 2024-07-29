@@ -1,0 +1,5 @@
+package com.springapp.repository;
+
+public interface JobRepository implements JpaRepository{
+
+}

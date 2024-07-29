@@ -1,0 +1,73 @@
+package com.springapp.serviceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springapp.entity.Company;
+import com.springapp.entity.Review;
+import com.springapp.repository.CompanyRepository;
+import com.springapp.repository.ReviewRepository;
+import com.springapp.service.CompanyService;
+import com.springapp.service.ReviewService;
+
+@Service
+public class ReviewServiceImpl implements ReviewService{
+
+	@Autowired
+	private ReviewRepository reviewRepo;
+	
+	@Autowired
+	private CompanyService compService;
+	
+	
+	@Override
+	public List<Review> getAllReviews(Long companyId) {
+		List<Review> allReview = reviewRepo.findByCompanyId(companyId);
+		return allReview;
+	}
+
+	@Override
+	public boolean createReview(Long companyId, Review review) {
+		Company company = compService.findById(companyId);
+		System.out.println("--------------"+company);
+		if(null != company) {
+			review.setCompany(company);
+			reviewRepo.save(review);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Review findById(Long id) {
+		Review review = reviewRepo.findById(id).orElse(null);
+		return review;
+	}
+
+	@Override
+	public boolean deleteById(Long id) {
+		if(reviewRepo.existsById(id)) {
+			reviewRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateReview(Long id, Review review) {
+		Optional<Review> reviewOptional = reviewRepo.findById(id);
+		if(reviewOptional.isPresent()) {
+			Review reviewItem = reviewOptional.get();
+			reviewItem.setTitle(review.getTitle());
+			reviewItem.setDescription(review.getDescription());
+			reviewItem.setRating(review.getRating());
+			reviewRepo.save(reviewItem);
+			return true;			
+		}
+		return false;
+	}
+
+}

@@ -1,0 +1,55 @@
+package com.springapp.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springapp.entity.Job;
+import com.springapp.repository.JobRepository;
+
+@Service
+public class JobServiceImpl2 implements JobService{
+	
+	@Autowired
+	JobRepository jobRepository;
+
+	@Override
+	public List<Job> getAllJobs() {
+		List<Job> allJobs = jobRepository.findAll();
+		return allJobs;
+	}
+
+	@Override
+	public void createJob(Job job) {
+		jobRepository.save(job);
+	}
+
+	@Override
+	public Job findById(Long id) {
+		Optional<Job> job = jobRepository.findById(id);
+		if(job.isPresent()) {
+			return job.get();
+		}
+		System.out.println(job);
+		return null;
+	}
+
+	@Override
+	public boolean deleteById(Long id) {
+		jobRepository.deleteById(id);
+		Job job = findById(id);
+		if(job.getId() == null) return true;
+		
+		return false;
+	}
+
+	@Override
+	public boolean updateJob(Long id, Job job) {
+		Job job2 = jobRepository.save(job);
+		
+		return false;
+	}
+
+}

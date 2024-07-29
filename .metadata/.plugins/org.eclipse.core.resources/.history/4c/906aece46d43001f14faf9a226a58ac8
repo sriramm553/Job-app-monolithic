@@ -1,0 +1,19 @@
+package com.springapp.service;
+
+import java.util.List;
+
+import com.springapp.entity.Review;
+
+public interface ReviewService {
+	
+	public List<Review> getAllJobs();
+	
+	public void createJob(Review review);
+
+	public Review findById(Long id);
+
+	public boolean deleteById(Long id);
+
+	public boolean updateJob(Long id, Review review);
+
+}

@@ -1,0 +1,20 @@
+package com.springapp.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.springapp.entity.Jobs;
+
+public class JobController {
+	
+	List<Jobs> jobs = new ArrayList<>();
+	
+	
+	public List<Jobs> getAllJobs(){
+		
+		
+		return jobs;
+	}
+	
+
+}

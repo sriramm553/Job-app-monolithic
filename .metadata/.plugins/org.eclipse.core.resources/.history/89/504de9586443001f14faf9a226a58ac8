@@ -1,0 +1,60 @@
+package com.springapp.entity;
+
+import java.util.List;
+
+import jakarta.persistence.OneToMany;
+
+public class Company {
+
+	private Long id;
+	private String name;
+	private String description;
+
+	@OneToMany
+	private List<Job> job;
+
+	public Company() {
+		super();
+	}
+
+	public Company( String name, String description, List<Job> job) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.job = job;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Job> getJob() {
+		return job;
+	}
+
+	public void setJob(List<Job> job) {
+		this.job = job;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", name=" + name + ", description=" + description + ", job=" + job + "]";
+	}
+
+}

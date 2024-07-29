@@ -1,0 +1,60 @@
+package com.springapp.serviceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.springapp.entity.Company;
+import com.springapp.entity.Job;
+import com.springapp.repository.CompanyRepository;
+import com.springapp.service.CompanyService;
+
+public class CompanyServiceImpl implements CompanyService{
+	
+	private List<Company> comps = new ArrayList<>();
+	
+	@Autowired
+	private CompanyRepository compRepo;
+
+	@Override
+	public List<Company> getAllCompany() {
+		List<Company> allCompany = compRepo.findAll();
+		
+		return allCompany;
+	}
+
+	@Override
+	public void createCompany(Company company) {
+		compRepo.save(company);
+	}
+
+	@Override
+	public Company findById(Long id) {
+		Company company = compRepo.findById(id).orElse(null);
+		return company;
+	}
+
+	@Override
+	public boolean deleteById(Long id) {
+		Optional<Company> compOptional = compRepo.findById(id);
+		if(compOptional.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateCompany(Long id, Company company) {
+		Optional<Company> compOptional = compRepo.findById(id);
+		if(compOptional.isPresent()) {
+			Company comp = compOptional.get();
+			comp.setName(company.getName());
+			comp.setDescription(company.getDescription());
+			comp.setJob(company.getJob());
+		}
+		return false;
+	}
+
+}
