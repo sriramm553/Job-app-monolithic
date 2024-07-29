@@ -30,7 +30,6 @@ public class JobController {
 	@GetMapping
 	public ResponseEntity<Job> getAllJobs(){
 		List<Job> allJobs = jobService.getAllJobs();
-		System.out.println("Job Service Called ************");
 		return new ResponseEntity(allJobs, HttpStatus.OK);
 	}
 	
