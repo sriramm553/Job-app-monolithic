@@ -2,13 +2,8 @@ package com.springapp.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
 @Entity
 public class Company {
@@ -16,37 +11,37 @@ public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
-	private String description;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "company")
+    private String name;
+
+    private String description;
+
+	@OneToMany(mappedBy = "company")//, fetch = FetchType.EAGER)
+	@JsonManagedReference("company-jobs")
 	private List<Job> job;
 
+	// In Company.java
 	@OneToMany(mappedBy = "company")
+	@JsonManagedReference("company-reviews")
 	private List<Review> review;
 
-	public List<Review> getReview() {
-		return review;
-	}
-
-	public void setReview(List<Review> review) {
-		this.review = review;
-	}
-
 	public Company() {
-		super();
 	}
 
-	public Company(String name, String description, List<Job> job) {
-		super();
+	public Company(Long id, String name, String description, List<Job> job, List<Review> review) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.job = job;
+		this.review = review;
 	}
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -71,6 +66,14 @@ public class Company {
 
 	public void setJob(List<Job> job) {
 		this.job = job;
+	}
+
+	public List<Review> getReview() {
+		return review;
+	}
+
+	public void setReview(List<Review> review) {
+		this.review = review;
 	}
 
 	@Override

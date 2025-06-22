@@ -3,6 +3,8 @@ package com.springapp.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
+import com.springapp.entity.Company;
+import com.springapp.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class JobServiceImpl2 implements JobService {
 	@Autowired
 	JobRepository jobRepository;
 
+	@Autowired
+	CompanyRepository compRepository;
+
 	@Override
 	public List<Job> getAllJobs() {
 		List<Job> allJobs = jobRepository.findAll();
@@ -24,7 +29,11 @@ public class JobServiceImpl2 implements JobService {
 
 	@Override
 	public void createJob(Job job) {
-		jobRepository.save(job);
+		Company comp = compRepository.findById(job.getCompany().getId()).orElse(null);
+		if(null != comp){
+			job.setCompany(comp);
+		}
+        jobRepository.save(job);
 	}
 
 	@Override
@@ -36,11 +45,12 @@ public class JobServiceImpl2 implements JobService {
 
 	@Override
 	public boolean deleteById(Long id) {
-		jobRepository.deleteById(id);
-		Optional<Job> job = jobRepository.findById(id);
-		if (job.isEmpty())
-			return true;
 
+		Optional<Job> job = jobRepository.findById(id);
+		if (job.isPresent()){
+			jobRepository.deleteById(id);
+			return true;
+		}
 		return false;
 	}
 

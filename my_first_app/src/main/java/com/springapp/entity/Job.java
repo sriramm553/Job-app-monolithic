@@ -1,83 +1,110 @@
 package com.springapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.*;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+//@Table(name = "jobs_table")
 public class Job {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String title;
-	private String description;
-	private String currentSalary;
-	private String expectedSalary;
-	private String location;
 
-	@ManyToOne
-	private Company company;
+    private String title;
 
-	public Job() {
+    private String description;
 
-	}
+    private String currentSalary;
 
-	public Long getId() {
-		return id;
-	}
+    private String expectedSalary;
 
-	public String getTitle() {
-		return title;
-	}
+    private String location;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    @ManyToOne//(fetch = FetchType.EAGER)
+    //@JsonIgnoreProperties("job")
+    @JsonBackReference("company-jobs")
+    private Company company;
 
-	public String getDescription() {
-		return description;
-	}
+    public Job() {
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public Job(String title, Long id, String description, String currentSalary, String expectedSalary, String location, Company company) {
+        this.title = title;
+        this.id = id;
+        this.description = description;
+        this.currentSalary = currentSalary;
+        this.expectedSalary = expectedSalary;
+        this.location = location;
+        this.company = company;
+    }
 
-	public String getCurrentSalary() {
-		return currentSalary;
-	}
+    @JsonCreator
+    public Job(@JsonProperty("companyId") Long companyId) {
+        this.company = new Company();
+        this.company.setId(companyId);
+    }
 
-	public void setCurrentSalary(String currentSalary) {
-		this.currentSalary = currentSalary;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getExpectedSalary() {
-		return expectedSalary;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setExpectedSalary(String expectedSalary) {
-		this.expectedSalary = expectedSalary;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public Company getCompany() {
-		return company;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setCompany(Company company) {
-		this.company = company;
-	}
+    public String getCurrentSalary() {
+        return currentSalary;
+    }
 
-	@Override
+    public void setCurrentSalary(String currentSalary) {
+        this.currentSalary = currentSalary;
+    }
+
+    public String getExpectedSalary() {
+        return expectedSalary;
+    }
+
+    public void setExpectedSalary(String expectedSalary) {
+        this.expectedSalary = expectedSalary;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    @Override
 	public String toString() {
 		return "Jobs [id=" + id + ", title=" + title + ", description=" + description + ", currentSalary="
 				+ currentSalary + ", expectedSalary=" + expectedSalary + ", location=" + location + "]";

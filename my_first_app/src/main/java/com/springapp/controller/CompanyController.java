@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,8 @@ public class CompanyController {
 		List<Company> allcompanies = compService.getAllCompany();
 		return new ResponseEntity(allcompanies, HttpStatus.OK);
 	}
-	
-	@PostMapping
+
+	@PostMapping(value = "/company", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addCompanies(@RequestBody Company company){
 		compService.createCompany(company);
 		return new ResponseEntity<>("Company added Successfully",HttpStatus.CREATED);
@@ -65,5 +66,10 @@ public class CompanyController {
 		if(updated)	return new ResponseEntity<>("Jobs updated Successfully",HttpStatus.CREATED);
 		
 		return new ResponseEntity("ID Not Found",HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/helloworld")
+	public String helloworld(){
+		return "helloworld";
 	}
 }

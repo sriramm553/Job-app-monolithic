@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: JobApplication
+
+#asking Spring to write SQL Query in log
+  jpa:
+    show-sql: true
+
+
+  #none	        Hibernate does nothing with your schema. It's up to you to manage it.
+  #validate	    Hibernate validates the schema matches your entities. Fails if mismatched.
+  #update	        Hibernate updates the schema to match your entities (non-destructive).
+  #create	        Drops and recreates schema every time app starts. Data is lost.
+  #create-drop	Same as create, but also drops schema when app stops.
+
+  #It updates the database schema to match your entity classes?without dropping existing data.
+  #spring.jpa.hibernate.ddl-auto=update
+  #Create the database schema when the application starts, and drop it when the application shuts down.
+    hibernate:
+      ddl-auto: create
+
+
+  #Actuators
+management:
+    endpoints:
+      web:
+        exposure:
+          include: &common
+  
+      health:
+        show-details: always
+  #info properties
+    info:
+      enabled: true
+      env:
+        enabled: true
+  
+info:
+  app:
+    name: JobApplication
+    description:  Job Application using Monolithic
+    version: 1.0.0
